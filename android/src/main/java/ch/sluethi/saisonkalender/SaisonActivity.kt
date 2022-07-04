@@ -8,6 +8,7 @@ import androidx.compose.material.Scaffold
 import androidx.navigation.compose.rememberNavController
 import ch.sluethi.saisonkalender.navigation.BottomBar
 import ch.sluethi.saisonkalender.navigation.BottomNavGraph
+import ch.sluethi.saisonkalender.ui.theme.SaisonkalenderTheme
 
 class SaisonActivity : ComponentActivity() {
 
@@ -17,8 +18,10 @@ class SaisonActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            Scaffold(bottomBar = { BottomBar(navController = navController) }) { _ ->
-                BottomNavGraph(navHostController = navController, viewModel = viewModel)
+            SaisonkalenderTheme {
+                Scaffold(bottomBar = { BottomBar(navController = navController) }) { _ ->
+                    BottomNavGraph(navHostController = navController, viewModel = viewModel)
+                }
             }
         }
     }
