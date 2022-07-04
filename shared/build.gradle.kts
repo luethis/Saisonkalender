@@ -1,3 +1,5 @@
+import android.annotation.SuppressLint
+
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
@@ -23,7 +25,11 @@ kotlin {
     }
     
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1-native-mt")
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))

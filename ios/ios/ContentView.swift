@@ -2,10 +2,19 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-	let greet = Greeting().greeting()
-
 	var body: some View {
-		Text(greet)
+        TabView {
+            Products()
+                .tabItem() {
+                    Image(systemName: "lasso")
+                    Text("Übersicht")
+                }
+            Notification()
+                .tabItem() {
+                    Image(systemName: "phone.fill")
+                    Text("Benachrichtigung")
+                }
+        }
 	}
 }
 
