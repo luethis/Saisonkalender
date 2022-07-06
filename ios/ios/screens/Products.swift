@@ -12,7 +12,7 @@ struct Products: View {
             ScrollView(.vertical) {
                 LazyVStack {
                     Button ("load data"){
-                        Interactor(repository: FirestoreRepository()).getProducts().collectCommon() { queryState in
+                        Interactor(repository: Firestore()).getProducts().collectCommon() { queryState in
                             if(queryState != nil){
                                 self.demoData = queryState!.products ?? []
                             }
@@ -21,8 +21,9 @@ struct Products: View {
                     }
                     
                     ForEach(demoData, id: \.name) { data in
-                        NavigationLink(destination: Text(data.description_)){
-                            Text(data.name)
+                        
+                        NavigationLink(destination: Text(data.description_["de"]!)){
+                            Text(data.name["de"]!)
                         }
                     }
                 }
