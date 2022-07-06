@@ -4,7 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import ch.sluethi.saisonkalender.model.Product
-import ch.sluethi.saisonkalender.network.FirestoreRepository
+import ch.sluethi.saisonkalender.firestore.Firestore
 
 class SaisonViewModel : ViewModel() {
 
@@ -12,7 +12,7 @@ class SaisonViewModel : ViewModel() {
     val loading = mutableStateOf(false)
 
     fun fetchData() {
-        Interactor(FirestoreRepository()).getProducts().collectCommon {
+        Interactor(Firestore()).getProducts().collectCommon {
             it.products?.let { products ->
                 data.value = products
             }

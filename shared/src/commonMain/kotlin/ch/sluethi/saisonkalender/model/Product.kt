@@ -1,8 +1,8 @@
 package ch.sluethi.saisonkalender.model
 
 data class Product(
-    val name: String,
-    val description: String,
+    val name: Map<String, String>,
+    val description: Map<String, String>,
+    val season: BooleanArray,
     val url: String,
-    val season: Map<Int, Boolean>
 )

@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     kotlin("android")
+    id("com.google.gms.google-services")
 }
 
 android {

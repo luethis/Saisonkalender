@@ -28,6 +28,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1-native-mt")
+                implementation("dev.gitlive:firebase-firestore:1.6.1")
+                implementation("co.touchlab:kermit:1.1.3")
             }
         }
         val commonTest by getting {
