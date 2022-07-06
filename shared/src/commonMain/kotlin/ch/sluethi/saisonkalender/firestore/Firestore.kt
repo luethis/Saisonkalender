@@ -22,4 +22,16 @@ class Firestore {
         }
         return list
     }
+
+    /**
+     * fetch database version from firebase firestore to check if an update is needed
+     */
+    suspend fun fetchVersion(): Int {
+        runCatching {
+            return Firebase.firestore.collection(COLLECTION_ADMINISTRATION)
+                .document(DOCUMENT_CONFIGURATION)
+                .get().get(FIELD_DATABASE_VERSION)
+        }
+        return -1
+    }
 }
