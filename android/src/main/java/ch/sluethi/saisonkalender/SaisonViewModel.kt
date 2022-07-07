@@ -3,8 +3,8 @@ package ch.sluethi.saisonkalender
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import ch.sluethi.saisonkalender.model.Product
 import ch.sluethi.saisonkalender.firestore.Firestore
+import ch.sluethi.saisonkalender.model.Product
 
 class SaisonViewModel : ViewModel() {
 
