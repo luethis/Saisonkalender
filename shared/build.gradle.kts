@@ -33,6 +33,7 @@ kotlin {
                 implementation("co.touchlab:kermit:1.1.3")
                 implementation("io.realm.kotlin:library-base:1.0.0")
                 implementation("com.russhwolf:multiplatform-settings-no-arg:0.9")
+                implementation("io.insert-koin:koin-core:3.2.0")
             }
         }
         val commonTest by getting {

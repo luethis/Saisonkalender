@@ -12,27 +12,30 @@ struct Products: View {
             ScrollView(.vertical) {
                 LazyVStack {
                     Button ("load data"){
-                        Interactor(repository: Firestore()).getProducts().collectCommon() { queryState in
-                            if(queryState != nil){
-                                self.demoData = queryState!.products ?? []
+                        Task {
+                            do {
+                                try await KoinHelper().loadProducts().collectCommon(callback: { bla in
+                                    isLoading = bla!.loading
+                                    if(bla!.products != nil){
+                                        self.demoData = bla!.products! as! [Product]
+                                    }
+                            })
                             }
-                            self.isLoading = queryState?.loading ?? false
                         }
-                    }
-                    
-                    ForEach(demoData, id: \.name) { data in
-                        
-                        NavigationLink(destination: Text(data.description_["de"]!)){
-                            Text(data.name["de"]!)
-                        }
-                    }
                 }
+                ForEach(demoData, id: \.name) { data in
+                    NavigationLink(destination: Text(data.description_["de"]!)){
+                        Text(data.name["de"]!)
+                    }
+       
+                    }
                 if self.isLoading {
                     ProgressView("loading mock data")
                 }
             }
         }
     }
+}
 }
 
 struct Products_Previews: PreviewProvider {
