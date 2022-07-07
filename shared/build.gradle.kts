@@ -4,6 +4,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
+    id("io.realm.kotlin")
 }
 
 version = "1.0"
@@ -30,6 +31,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1-native-mt")
                 implementation("dev.gitlive:firebase-firestore:1.6.1")
                 implementation("co.touchlab:kermit:1.1.3")
+                implementation("io.realm.kotlin:library-base:1.0.0")
             }
         }
         val commonTest by getting {
