@@ -1,9 +1,10 @@
 package ch.sluethi.saisonkalender
 
-import ch.sluethi.saisonkalender.firestore.Firestore
+import ch.sluethi.saisonkalender.network.Firestore
 import ch.sluethi.saisonkalender.helper.CommonFlow
 import ch.sluethi.saisonkalender.helper.asCommonFlow
-import ch.sluethi.saisonkalender.model.QueryState
+import ch.sluethi.saisonkalender.network.Result
+import ch.sluethi.saisonkalender.model.Product
 import ch.sluethi.saisonkalender.persistence.AppSettings
 import ch.sluethi.saisonkalender.persistence.Persistence
 import co.touchlab.kermit.Logger
@@ -11,14 +12,14 @@ import kotlinx.coroutines.flow.flow
 
 class Interactor(val repository: Firestore) {
 
-    fun getProducts(): CommonFlow<QueryState> = flow {
-        emit(QueryState.loading())
+    fun getProducts(): CommonFlow<Result<List<Product>>> = flow {
+        emit(Result.loading())
 
         val cache = Persistence()
 
         if (cache.countProducts() > 0) {
             Logger.v("read from cache")
-            emit(QueryState.result(cache.getProducts()))
+            emit(Result.result(cache.getProducts()))
 
             val remoteVersion = Firestore().fetchVersion()
             val localVersion = AppSettings.versionCode
@@ -26,7 +27,7 @@ class Interactor(val repository: Firestore) {
             if (remoteVersion > localVersion) {
                 Logger.v("update products")
                 val products = Firestore().fetchData()
-                emit(QueryState.result(products))
+                emit(Result.result(products))
                 cache.deleteProducts()
                 cache.insertProducts(products)
                 AppSettings.versionCode = remoteVersion
@@ -35,7 +36,7 @@ class Interactor(val repository: Firestore) {
         } else {
             Logger.v("first app usage")
             val products = Firestore().fetchData()
-            emit(QueryState.result(products))
+            emit(Result.result(products))
             cache.insertProducts(products)
         }
     }.asCommonFlow()

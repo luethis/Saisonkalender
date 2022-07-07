@@ -1,4 +1,4 @@
-package ch.sluethi.saisonkalender.firestore
+package ch.sluethi.saisonkalender.network
 
 import ch.sluethi.saisonkalender.model.Product
 

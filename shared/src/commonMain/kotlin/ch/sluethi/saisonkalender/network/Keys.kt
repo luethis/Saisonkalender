@@ -1,4 +1,4 @@
-package ch.sluethi.saisonkalender.firestore
+package ch.sluethi.saisonkalender.network
 
 const val COLLECTION_PRODUCTS = "products"
 const val FIELD_NAME = "name"
