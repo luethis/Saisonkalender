@@ -43,8 +43,8 @@ fun OverviewList(list: List<Product>, onClick: (String) -> Unit) {
 
 @Composable
 fun OverviewItem(product: Product, onClick: (String) -> Unit) {
-    Column(modifier = Modifier.clickable { onClick(product.name["de"]!!) }) {
-        Text(text = product.name["de"]!!)
-        Text(text = product.description["de"]!!)
+    Column(modifier = Modifier.clickable { onClick(product.name) }) {
+        Text(text = product.name)
+        Text(text = product.description)
     }
 }

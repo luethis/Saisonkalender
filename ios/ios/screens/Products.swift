@@ -24,8 +24,8 @@ struct Products: View {
                         }
                 }
                 ForEach(demoData, id: \.name) { data in
-                    NavigationLink(destination: Text(data.description_["de"]!)){
-                        Text(data.name["de"]!)
+                    NavigationLink(destination: Text(data.description)){
+                        Text(data.name)
                     }
        
                     }
