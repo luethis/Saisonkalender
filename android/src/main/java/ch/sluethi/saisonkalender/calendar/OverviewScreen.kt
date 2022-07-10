@@ -1,16 +1,18 @@
 package ch.sluethi.saisonkalender.calendar
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import ch.sluethi.saisonkalender.components.LoadingIndicator
 import ch.sluethi.saisonkalender.SaisonViewModel
+import ch.sluethi.saisonkalender.components.LoadingIndicator
+import ch.sluethi.saisonkalender.components.ProductCard
 import ch.sluethi.saisonkalender.model.Product
 import ch.sluethi.saisonkalender.navigation.CalendarNavItem
 
@@ -19,10 +21,11 @@ fun OverviewScreen(viewModel: SaisonViewModel, navHostController: NavHostControl
     val data = viewModel.data.value
     val loading = viewModel.loading.value
 
+    LaunchedEffect(key1 = true, block = {
+        viewModel.fetchData()
+    })
+
     Column {
-        Button(onClick = { viewModel.fetchData() }) {
-            Text(text = "fetch that data")
-        }
         if (viewModel.data.value.isNotEmpty()) {
             OverviewList(list = data) {
                 navHostController.navigate(CalendarNavItem.Detail.assembleCall(it))
@@ -32,19 +35,15 @@ fun OverviewScreen(viewModel: SaisonViewModel, navHostController: NavHostControl
     LoadingIndicator(loading)
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OverviewList(list: List<Product>, onClick: (String) -> Unit) {
-    LazyColumn {
-        items(items = list) { item ->
-            OverviewItem(product = item, onClick)
-        }
-    }
-}
-
-@Composable
-fun OverviewItem(product: Product, onClick: (String) -> Unit) {
-    Column(modifier = Modifier.clickable { onClick(product.name) }) {
-        Text(text = product.name)
-        Text(text = product.description)
-    }
+    LazyVerticalGrid(
+        cells = GridCells.Fixed(3),
+        contentPadding = PaddingValues(all = 8.dp),
+        content = {
+            items(items = list) { item ->
+                ProductCard(product = item, onClick)
+            }
+        })
 }
