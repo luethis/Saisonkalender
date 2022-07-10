@@ -42,4 +42,16 @@ class Interactor(
             cache.insertProducts(products)
         }
     }.asCommonFlow()
+
+    fun getProduct(id: String): CommonFlow<Result<Product>> = flow {
+        emit(Result.loading())
+
+        val result = cache.getProduct(id)
+
+        if (result == null) {
+            emit(Result.error("product not found"))
+        } else {
+            emit(Result.result(result))
+        }
+    }.asCommonFlow()
 }

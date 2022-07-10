@@ -22,6 +22,13 @@ class Persistence {
         realm.close()
     }
 
+    fun getProduct(id: String): Product? {
+        Logger.v { "get a specific product from the cache" }
+        val realm: Realm = Realm.open(realmConfiguration)
+        val result = realm.query<RealmProduct>("id == $0", id).first().find()
+        return result?.run { convertFromRealm(this) }
+    }
+
     fun getProducts(): List<Product> {
         Logger.v { "get all products from cache" }
         val realm: Realm = Realm.open(realmConfiguration)

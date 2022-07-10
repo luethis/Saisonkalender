@@ -16,8 +16,8 @@ struct Products: View {
                             do {
                                 try await KoinHelper().loadProducts().collectCommon(callback: { bla in
                                     isLoading = bla!.loading
-                                    if(bla!.products != nil){
-                                        self.demoData = bla!.products! as! [Product]
+                                    if(bla!.data != nil){
+                                        self.demoData = bla!.data! as! [Product]
                                     }
                             })
                             }

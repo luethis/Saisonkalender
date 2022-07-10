@@ -13,11 +13,12 @@ class Firestore {
         val list = mutableListOf<Product>()
         Firebase.firestore.collection(COLLECTION_PRODUCTS).get().documents.forEach { document ->
             runCatching {
+                val id = document.id
                 val name = document.get<String>(FIELD_NAME)
                 val description = document.get<String>(FIELD_DESCPRIPTION)
                 val season = document.get<BooleanArray>(FIELD_SEASON)
                 val pictureUrl = document.get<String>(FIELD_PICTURE_URL)
-                list.add(Product(name, description, season, pictureUrl))
+                list.add(Product(id, name, description, season, pictureUrl))
             }
         }
         return list

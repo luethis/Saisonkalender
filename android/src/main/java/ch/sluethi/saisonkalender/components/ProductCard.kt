@@ -40,7 +40,7 @@ fun ProductCard(product: Product, onClick: (String) -> Unit) {
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .clickable { onClick(product.name) },
+            .clickable { onClick(product.id) },
         elevation = 4.dp,
     ) {
         Column(modifier = Modifier.padding(4.dp)) {

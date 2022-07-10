@@ -1,8 +1,5 @@
 package ch.sluethi.saisonkalender.navigation
 
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.ContentAlpha
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -12,7 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import ch.sluethi.saisonkalender.SaisonViewModel
+import ch.sluethi.saisonkalender.calendar.CalendarViewModel
 import ch.sluethi.saisonkalender.notifications.NotificationsScreen
 
 val bottomNavigationItems = listOf(
@@ -21,7 +18,7 @@ val bottomNavigationItems = listOf(
 )
 
 @Composable
-fun BottomNavGraph(navHostController: NavHostController, viewModel: SaisonViewModel) {
+fun BottomNavGraph(navHostController: NavHostController, viewModel: CalendarViewModel) {
     NavHost(navController = navHostController, startDestination = BottomNavItem.Calendar.route) {
         composable(route = BottomNavItem.Calendar.route) {
             CalendarNavGraph(viewModel = viewModel)

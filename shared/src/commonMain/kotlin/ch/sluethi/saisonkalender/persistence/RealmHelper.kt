@@ -2,11 +2,10 @@ package ch.sluethi.saisonkalender.persistence
 
 import ch.sluethi.saisonkalender.model.Product
 import ch.sluethi.saisonkalender.model.RealmProduct
-import io.realm.kotlin.ext.toRealmList
-import io.realm.kotlin.types.RealmList
 
 fun convertToRealm(product: Product): RealmProduct {
     return RealmProduct().apply {
+        id = product.id
         name = product.name
         description = product.description
         season = product.season
@@ -16,6 +15,7 @@ fun convertToRealm(product: Product): RealmProduct {
 
 fun convertFromRealm(realmProduct: RealmProduct): Product {
     return Product(
+        id = realmProduct.id,
         name = realmProduct.name,
         description = realmProduct.description,
         season = realmProduct.season,
