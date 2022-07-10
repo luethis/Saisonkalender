@@ -1,40 +1,50 @@
 package ch.sluethi.saisonkalender.calendar
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.GridItemSpan
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import ch.sluethi.saisonkalender.components.GridHeader
 import ch.sluethi.saisonkalender.components.LoadingIndicator
 import ch.sluethi.saisonkalender.components.ProductCard
-import ch.sluethi.saisonkalender.model.Product
 import ch.sluethi.saisonkalender.navigation.CalendarNavItem
 
 @Composable
 fun CalendarScreen(viewModel: CalendarViewModel, navHostController: NavHostController) {
-    LaunchedEffect(key1 = true) { viewModel.fetchData() }
-    ProductGrid(list = viewModel.data) {
-        navHostController.navigate(
-            CalendarNavItem.Detail.assembleCall(
-                it
+    LaunchedEffect(key1 = true) { viewModel.fetchCalendar() }
+    Column {
+        ProductGrid(viewModel = viewModel) {
+            navHostController.navigate(
+                CalendarNavItem.Detail.assembleCall(
+                    it
+                )
             )
-        )
+        }
     }
     LoadingIndicator(viewModel.loading.value)
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ProductGrid(list: List<Product>, onClick: (String) -> Unit) {
+fun ProductGrid(viewModel: CalendarViewModel, onClick: (String) -> Unit) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(3),
         contentPadding = PaddingValues(all = 8.dp),
         content = {
-            items(items = list) { item ->
+            item(span = { GridItemSpan(maxCurrentLineSpan) }) {
+                GridHeader(
+                    text = viewModel.currentMonth.value,
+                    onPrevious = { viewModel.previousMonth() },
+                    onNext = { viewModel.nextMonth() })
+            }
+            items(items = viewModel.data) { item ->
                 ProductCard(product = item, onClick)
             }
         })

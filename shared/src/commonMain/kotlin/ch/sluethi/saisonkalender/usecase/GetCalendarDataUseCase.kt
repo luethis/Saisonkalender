@@ -16,7 +16,7 @@ class GetCalendarDataUseCase(
     private val cache: Persistence
 ) {
 
-    fun getProducts(): CommonFlow<Result<List<Product>>> = flow {
+    fun getProducts(month: Int): CommonFlow<Result<List<Product>>> = flow {
         emit(Result.loading())
 
         if (cache.countProducts() > 0) {
@@ -28,7 +28,7 @@ class GetCalendarDataUseCase(
 
             if (remoteVersion > localVersion) {
                 Logger.v("update products")
-                val products = firestore.fetchData()
+                val products = filterProductsForMonth(firestore.fetchData(), month)
                 emit(Result.result(products))
                 cache.deleteProducts()
                 cache.insertProducts(products)
@@ -42,4 +42,6 @@ class GetCalendarDataUseCase(
             cache.insertProducts(products)
         }
     }.asCommonFlow()
+
+    private fun filterProductsForMonth(list: List<Product>, month: Int) = list.filter { it.season[month] }
 }
