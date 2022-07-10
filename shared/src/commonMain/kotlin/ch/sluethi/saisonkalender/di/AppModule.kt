@@ -1,3 +1,3 @@
 package ch.sluethi.saisonkalender.di
 
-fun appModule() = listOf(commonModule)
+fun appModule() = listOf(commonModule, useCaseModule)
