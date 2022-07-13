@@ -8,7 +8,7 @@ import org.koin.core.context.startKoin
 
 class KoinHelper : KoinComponent {
     private val repository: GetCalendarDataUseCase by inject()
-    suspend fun loadProducts() = repository.getProducts()
+    suspend fun loadProducts() = repository.updateProducts()
 }
 
 fun initKoin() {

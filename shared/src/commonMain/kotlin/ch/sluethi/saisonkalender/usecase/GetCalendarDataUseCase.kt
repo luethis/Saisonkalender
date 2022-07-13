@@ -3,45 +3,50 @@ package ch.sluethi.saisonkalender.usecase
 import ch.sluethi.saisonkalender.helper.CommonFlow
 import ch.sluethi.saisonkalender.helper.asCommonFlow
 import ch.sluethi.saisonkalender.model.Product
-import ch.sluethi.saisonkalender.network.Firestore
 import ch.sluethi.saisonkalender.network.Result
-import ch.sluethi.saisonkalender.persistence.AppSettings
 import ch.sluethi.saisonkalender.persistence.Persistence
+import ch.sluethi.saisonkalender.usecase.UpdateCalendarUseCase.UpdateResult
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.flow
 
 class GetCalendarDataUseCase(
-    private val firestore: Firestore,
-    private val settings: AppSettings,
-    private val cache: Persistence
+    private val cache: Persistence,
+    private val updater: UpdateCalendarUseCase
 ) {
 
     fun getProducts(month: Int): CommonFlow<Result<List<Product>>> = flow {
+        writeLog("getProducts() invoked")
         emit(Result.loading())
-
         if (cache.countProducts() > 0) {
-            Logger.v("read from cache")
-            emit(Result.result(cache.getProducts()))
-
-            val remoteVersion = firestore.fetchVersion()
-            val localVersion = settings.versionCode
-
-            if (remoteVersion > localVersion) {
-                Logger.v("update products")
-                val products = filterProductsForMonth(firestore.fetchData(), month)
-                emit(Result.result(products))
-                cache.deleteProducts()
-                cache.insertProducts(products)
-                settings.versionCode = remoteVersion
-                Logger.v("products updated")
+            writeLog("there are items in the cache")
+            emit(Result.result(filterProductsForMonth(cache.getProducts(), month)))
+            writeLog("update products if needed")
+            when (updater.updateProducts()) {
+                UpdateResult.UPDATED -> emit(
+                    Result.result(
+                        filterProductsForMonth(
+                            cache.getProducts(),
+                            month
+                        )
+                    )
+                )
+                UpdateResult.NOT_NEEDED, UpdateResult.UPDATE_FAILED -> Unit
             }
         } else {
-            Logger.v("first app usage")
-            val products = firestore.fetchData()
-            emit(Result.result(products))
-            cache.insertProducts(products)
+            writeLog("first app sage")
+            when (updater.updateProducts()) {
+                UpdateResult.UPDATED, UpdateResult.NOT_NEEDED -> {
+                    emit(Result.result(filterProductsForMonth(cache.getProducts(), month)))
+                }
+                UpdateResult.UPDATE_FAILED -> emit(Result.error("could not load data"))
+            }
         }
     }.asCommonFlow()
 
-    private fun filterProductsForMonth(list: List<Product>, month: Int) = list.filter { it.season[month] }
+    private fun filterProductsForMonth(list: List<Product>, month: Int) =
+        list.filter { it.season[month] }
+
+    private fun writeLog(message: String) {
+        Logger.v("GetCalendarUseCase - $message")
+    }
 }

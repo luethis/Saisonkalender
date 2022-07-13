@@ -5,11 +5,13 @@ import ch.sluethi.saisonkalender.helper.asCommonFlow
 import ch.sluethi.saisonkalender.model.Product
 import ch.sluethi.saisonkalender.network.Result
 import ch.sluethi.saisonkalender.persistence.Persistence
+import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.flow
 
 class GetProductUseCase(private val cache: Persistence) {
 
     fun getProduct(id: String): CommonFlow<Result<Product>> = flow {
+        writeLog("getProduct() invoked")
         emit(Result.loading())
 
         val result = cache.getProduct(id)
@@ -21,4 +23,7 @@ class GetProductUseCase(private val cache: Persistence) {
         }
     }.asCommonFlow()
 
+    private fun writeLog(message: String) {
+        Logger.v("GetProductUseCase - $message")
+    }
 }

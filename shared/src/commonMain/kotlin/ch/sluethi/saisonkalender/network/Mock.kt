@@ -8,7 +8,7 @@ val mockData = listOf(
         name = "Product 1",
         description = "Beschreibung von Produkt 1",
         url = "https://firebasestorage.googleapis.com/v0/b/saisonkalender-f0dac.appspot.com/o/tomate.jpg?alt=media&token=528fb022-b805-45fa-96ec-29fdaa6eef7d",
-        season = booleanArrayOf(
+        season = listOf(
             false,
             true,
             false,
@@ -28,7 +28,7 @@ val mockData = listOf(
         name = "Product 2",
         description = "Beschreibung von Produkt 2",
         url = "https://firebasestorage.googleapis.com/v0/b/saisonkalender-f0dac.appspot.com/o/tomate.jpg?alt=media&token=528fb022-b805-45fa-96ec-29fdaa6eef7d",
-        season = booleanArrayOf(
+        season = listOf(
             true,
             false,
             true,
@@ -49,7 +49,7 @@ val mockData = listOf(
         name = "Produkt 3",
         description = "Beschreibung von Produkt 3",
         url = "https://firebasestorage.googleapis.com/v0/b/saisonkalender-f0dac.appspot.com/o/tomate.jpg?alt=media&token=528fb022-b805-45fa-96ec-29fdaa6eef7d",
-        season = booleanArrayOf(
+        season = listOf(
             false,
             false,
             true,

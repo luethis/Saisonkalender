@@ -30,6 +30,7 @@ kotlin {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1-native-mt")
                 implementation("dev.gitlive:firebase-firestore:1.6.1")
+                implementation("dev.gitlive:firebase-auth:1.6.1")
                 implementation("co.touchlab:kermit:1.1.3")
                 implementation("io.realm.kotlin:library-base:1.0.0")
                 implementation("com.russhwolf:multiplatform-settings-no-arg:0.9")
