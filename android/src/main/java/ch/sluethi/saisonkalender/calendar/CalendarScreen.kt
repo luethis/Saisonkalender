@@ -40,7 +40,7 @@ fun ProductGrid(viewModel: CalendarViewModel, onClick: (String) -> Unit) {
         content = {
             item(span = { GridItemSpan(maxCurrentLineSpan) }) {
                 GridHeader(
-                    text = viewModel.currentMonth.value,
+                    text = viewModel.currentMonth,
                     onPrevious = { viewModel.previousMonth() },
                     onNext = { viewModel.nextMonth() })
             }

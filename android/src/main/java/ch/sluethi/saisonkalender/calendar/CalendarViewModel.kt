@@ -1,7 +1,8 @@
 package ch.sluethi.saisonkalender.calendar
 
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import ch.sluethi.saisonkalender.model.Product
 import ch.sluethi.saisonkalender.platform.getCurrentMonth
@@ -17,11 +18,13 @@ class CalendarViewModel : ViewModel() {
     val data: MutableList<Product> = mutableListOf()
     val loading = mutableStateOf(false)
 
-    val currentMonth: MutableState<String> = mutableStateOf(getCurrentMonthAsText())
-    private val currentMonthIndex: MutableState<Int> = mutableStateOf(getCurrentMonth())
+    var currentMonth by mutableStateOf(getCurrentMonthAsText())
+        private set
+
+    private var currentMonthIndex by mutableStateOf(getCurrentMonth())
 
     fun fetchCalendar() {
-        repository.getProducts(currentMonthIndex.value).collectCommon {
+        repository.getProducts(currentMonthIndex).collectCommon {
             it.data?.let { products ->
                 data.clear()
                 data.addAll(products)
@@ -30,18 +33,17 @@ class CalendarViewModel : ViewModel() {
         }
     }
 
-    fun nextMonth() {
-        currentMonthIndex.value++
-        updateCalendar()
-    }
+    fun nextMonth() = updateMonth(currentMonthIndex.inc())
 
-    fun previousMonth() {
-        currentMonthIndex.value--
-        updateCalendar()
-    }
+    fun previousMonth() = updateMonth(currentMonthIndex.dec())
 
-    private fun updateCalendar() {
-        currentMonth.value = getMonthAsText(currentMonthIndex.value)
+    private fun updateMonth(newMonth: Int) {
+        currentMonthIndex = when {
+            newMonth > 11 -> 0
+            newMonth < 0 -> 11
+            else -> newMonth
+        }
+        currentMonth = getMonthAsText(currentMonthIndex)
         fetchCalendar()
     }
 }
