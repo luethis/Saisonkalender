@@ -20,7 +20,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDzLqJg3f7EZKusozhAflco0zX-C-m1584"
+          "current_key": "xyz"
         }
       ],
       "services": {
@@ -29,6 +29,13 @@
             {
               "client_id": "884287179742-2e15qb460728i8a9r9eim9p3des9js88.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "884287179742-p0135n9tfogkc00guk9abmfume23rjfa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ch.sluethi.saisonkalender"
+              }
             }
           ]
         }
