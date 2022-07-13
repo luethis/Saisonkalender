@@ -14,23 +14,25 @@ class GetCalendarDataUseCase(
     private val updater: UpdateCalendarUseCase
 ) {
 
-    fun getProducts(month: Int): CommonFlow<Result<List<Product>>> = flow {
+    fun getProducts(month: Int, checkUpdate : Boolean): CommonFlow<Result<List<Product>>> = flow {
         writeLog("getProducts() invoked")
         emit(Result.loading())
         if (cache.countProducts() > 0) {
             writeLog("there are items in the cache")
             emit(Result.result(filterProductsForMonth(cache.getProducts(), month)))
-            writeLog("update products if needed")
-            when (updater.updateProducts()) {
-                UpdateResult.UPDATED -> emit(
-                    Result.result(
-                        filterProductsForMonth(
-                            cache.getProducts(),
-                            month
+            if(checkUpdate){
+                writeLog("update products if needed")
+                when (updater.updateProducts()) {
+                    UpdateResult.UPDATED -> emit(
+                        Result.result(
+                            filterProductsForMonth(
+                                cache.getProducts(),
+                                month
+                            )
                         )
                     )
-                )
-                UpdateResult.NOT_NEEDED, UpdateResult.UPDATE_FAILED -> Unit
+                    UpdateResult.NOT_NEEDED, UpdateResult.UPDATE_FAILED -> Unit
+                }
             }
         } else {
             writeLog("first app sage")

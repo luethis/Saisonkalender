@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.GridItemSpan
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ch.sluethi.saisonkalender.components.GridHeader
@@ -18,7 +17,6 @@ import ch.sluethi.saisonkalender.navigation.CalendarNavItem
 
 @Composable
 fun CalendarScreen(viewModel: CalendarViewModel, navHostController: NavHostController) {
-    LaunchedEffect(key1 = true) { viewModel.fetchCalendar() }
     Column {
         ProductGrid(viewModel = viewModel) {
             navHostController.navigate(

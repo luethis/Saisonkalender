@@ -6,8 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import ch.sluethi.saisonkalender.helper.getCurrentMonth
 import ch.sluethi.saisonkalender.helper.getCurrentMonthText
-import ch.sluethi.saisonkalender.model.Product
 import ch.sluethi.saisonkalender.helper.getMonthAsText
+import ch.sluethi.saisonkalender.model.Product
 import ch.sluethi.saisonkalender.usecase.GetCalendarDataUseCase
 import org.koin.java.KoinJavaComponent.inject
 
@@ -23,8 +23,12 @@ class CalendarViewModel : ViewModel() {
 
     private var currentMonthIndex by mutableStateOf(getCurrentMonth())
 
-    fun fetchCalendar() {
-        repository.getProducts(currentMonthIndex).collectCommon {
+    init {
+        fetchCalendar(true)
+    }
+
+    private fun fetchCalendar(checkUpdate: Boolean) {
+        repository.getProducts(currentMonthIndex, checkUpdate).collectCommon {
             it.data?.let { products ->
                 data.clear()
                 data.addAll(products)
@@ -44,6 +48,6 @@ class CalendarViewModel : ViewModel() {
             else -> newMonth
         }
         currentMonth = getMonthAsText(currentMonthIndex)
-        fetchCalendar()
+        fetchCalendar(false)
     }
 }
