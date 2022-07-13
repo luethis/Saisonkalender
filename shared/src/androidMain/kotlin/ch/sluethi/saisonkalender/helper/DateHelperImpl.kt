@@ -1,4 +1,4 @@
-package ch.sluethi.saisonkalender.platform
+package ch.sluethi.saisonkalender.helper
 
 import java.text.SimpleDateFormat
 import java.util.*

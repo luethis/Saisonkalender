@@ -4,10 +4,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import ch.sluethi.saisonkalender.helper.getCurrentMonth
+import ch.sluethi.saisonkalender.helper.getCurrentMonthText
 import ch.sluethi.saisonkalender.model.Product
-import ch.sluethi.saisonkalender.platform.getCurrentMonth
-import ch.sluethi.saisonkalender.platform.getCurrentMonthAsText
-import ch.sluethi.saisonkalender.platform.getMonthAsText
+import ch.sluethi.saisonkalender.helper.getMonthAsText
 import ch.sluethi.saisonkalender.usecase.GetCalendarDataUseCase
 import org.koin.java.KoinJavaComponent.inject
 
@@ -18,7 +18,7 @@ class CalendarViewModel : ViewModel() {
     val data: MutableList<Product> = mutableListOf()
     val loading = mutableStateOf(false)
 
-    var currentMonth by mutableStateOf(getCurrentMonthAsText())
+    var currentMonth by mutableStateOf(getCurrentMonthText())
         private set
 
     private var currentMonthIndex by mutableStateOf(getCurrentMonth())
