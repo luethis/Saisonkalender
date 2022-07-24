@@ -1,4 +1,8 @@
 <resources>
     <string name="previous_month">vorheriger Monat</string>
     <string name="next_month">nächster Monat</string>
+    <string name="app_name">Saisonkalender</string>
+    <string name="title_calendar">Kalender</string>
+    <string name="title_notifications">Benachrichtigungen</string>
+    <string name="title_detail">Produktdetail</string>
 </resources>

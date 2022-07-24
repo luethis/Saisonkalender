@@ -6,12 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
+import androidx.compose.material.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import ch.sluethi.saisonkalender.calendar.CalendarViewModel
-import ch.sluethi.saisonkalender.navigation.BottomBar
-import ch.sluethi.saisonkalender.navigation.BottomNavGraph
+import ch.sluethi.saisonkalender.components.BottomNavigation
+import ch.sluethi.saisonkalender.navigation.NavigationGraph
 import ch.sluethi.saisonkalender.ui.theme.SaisonkalenderTheme
 
 class SaisonActivity : ComponentActivity() {
@@ -23,9 +23,10 @@ class SaisonActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             SaisonkalenderTheme {
-                Scaffold(bottomBar = { BottomBar(navController = navController) }) { paddingValues ->
+                Scaffold(
+                    bottomBar = { BottomNavigation(navController = navController) }) { paddingValues ->
                     Box(modifier = Modifier.padding(paddingValues)) {
-                        BottomNavGraph(navHostController = navController, viewModel = viewModel)
+                        NavigationGraph(navHostController = navController, viewModel = viewModel)
                     }
                 }
             }

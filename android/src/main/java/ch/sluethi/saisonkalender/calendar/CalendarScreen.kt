@@ -7,22 +7,25 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.GridItemSpan
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import ch.sluethi.saisonkalender.R
 import ch.sluethi.saisonkalender.components.GridHeader
 import ch.sluethi.saisonkalender.components.LoadingIndicator
 import ch.sluethi.saisonkalender.components.ProductCard
-import ch.sluethi.saisonkalender.navigation.CalendarNavItem
+import ch.sluethi.saisonkalender.navigation.CalendarNavigationItem
 
 @Composable
-fun CalendarScreen(viewModel: CalendarViewModel, navHostController: NavHostController) {
+fun CalendarScreen(navHostController: NavHostController, viewModel: CalendarViewModel) {
     Column {
+        TopAppBar(title = { Text(stringResource(id = R.string.app_name)) })
         ProductGrid(viewModel = viewModel) {
             navHostController.navigate(
-                CalendarNavItem.Detail.assembleCall(
-                    it
-                )
+                CalendarNavigationItem.Detail.assembleCall(it)
             )
         }
     }
